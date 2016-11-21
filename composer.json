@@ -1,0 +1,14 @@
+{
+	"name": "/npeditmultipleelements",
+	"description": "This plugin lets you edit multiple elements sequentially.",
+	"type": "craft-plugin",
+	"authors": [
+		{
+			"name": "Paul Verheul for Nils en Paul",
+			"homepage": "https://www.nilsenpaul.nl"
+		}
+	],
+	"require": {
+		"composer/installers": "~1.0"
+	}
+}
