@@ -21,6 +21,7 @@ class NpEditMultipleElementsService extends BaseApplicationComponent
 		if (!empty($elementsRemaining)) {
 			$firstElementIdInLine = array_shift($elementsRemaining);
 			craft()->session->add('npEditMultiple_remaining', $elementsRemaining);
+			craft()->session->add('npEditMultiple_first', $firstElementIdInLine);
 			
 			return craft()->request->redirect(craft()->elements->getElementById($firstElementIdInLine, null, craft()->session->get('npEditMultiple_locale'))->cpEditUrl);
 		} else {
@@ -30,7 +31,7 @@ class NpEditMultipleElementsService extends BaseApplicationComponent
 
 	public function handleNonEditRequests()
 	{
-		if (!empty(craft()->session->get('npEditMultiple_remaining'))) {
+		if (!craft()->request->isAjaxRequest && !empty(craft()->session->get('npEditMultiple_remaining'))) {
 			// Destroy session if this is a non-edit request, or if the currently requested element is not in the list
 			$segments = craft()->request->segments;
 			if (isset($segments[2])) {
