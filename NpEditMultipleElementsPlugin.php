@@ -30,7 +30,9 @@ class NpEditMultipleElementsPlugin extends BasePlugin
 		}
 
 		// Any other than an edit page and session is set? Destroy session value.
-		craft()->npEditMultipleElements->handleNonEditRequests();
+		if (craft()->request->isCpRequest()) {
+			craft()->npEditMultipleElements->handleNonEditRequests();
+		}
 
 		// Listen for onSaveEntry event
 		craft()->on('entries.saveEntry', function(Event $event) {
