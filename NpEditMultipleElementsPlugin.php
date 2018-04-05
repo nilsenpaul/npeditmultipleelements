@@ -17,36 +17,38 @@ class NpEditMultipleElementsPlugin extends BasePlugin
 {
 	public function init()
 	{
-		require_once('elementactions/EditMultipleElementsAction.php');
+		if (!craft()->isConsole()) {
+			require_once('elementactions/EditMultipleElementsAction.php');
 
-		// Do we have a remainingIds param? If so, fill sessions and redirect to first element edit page
-		if (craft()->request->isGetRequest && craft()->request->getParam('remainingIds') !== null) {
-			// Put ids in a session
-			craft()->session->add('npEditMultiple_first', explode('-', craft()->request->segments[2])[0]);
-			craft()->session->add('npEditMultiple_remaining', explode('|', craft()->request->getParam('remainingIds')));
-			craft()->session->add('npEditMultiple_locale', isset(craft()->request->segments[3]) ? craft()->request->segments[3] : null);
-			
-			return craft()->request->redirect(UrlHelper::getUrl(craft()->request->path));
-		}
+			// Do we have a remainingIds param? If so, fill sessions and redirect to first element edit page
+			if (craft()->request->isGetRequest && craft()->request->getParam('remainingIds') !== null) {
+				// Put ids in a session
+				craft()->session->add('npEditMultiple_first', explode('-', craft()->request->segments[2])[0]);
+				craft()->session->add('npEditMultiple_remaining', explode('|', craft()->request->getParam('remainingIds')));
+				craft()->session->add('npEditMultiple_locale', isset(craft()->request->segments[3]) ? craft()->request->segments[3] : null);
 
-		// Any other than an edit page and session is set? Destroy session value.
-		if (craft()->request->isCpRequest()) {
-			craft()->npEditMultipleElements->handleNonEditRequests();
-		}
-
-		// Listen for onSaveEntry event
-		craft()->on('entries.saveEntry', function(Event $event) {
-			if (!$event->params['isNewEntry']) {
-				craft()->npEditMultipleElements->handleSaveEvent();
+				return craft()->request->redirect(UrlHelper::getUrl(craft()->request->path));
 			}
-		});
 
-		// Listen for onSaveCategory event
-		craft()->on('categories.saveCategory', function(Event $event) {
-			if (!$event->params['isNewCategory']) {
-				craft()->npEditMultipleElements->handleSaveEvent();
+			// Any other than an edit page and session is set? Destroy session value.
+			if (craft()->request->isCpRequest()) {
+				craft()->npEditMultipleElements->handleNonEditRequests();
 			}
-		});
+
+			// Listen for onSaveEntry event
+			craft()->on('entries.saveEntry', function(Event $event) {
+				if (!$event->params['isNewEntry']) {
+					craft()->npEditMultipleElements->handleSaveEvent();
+				}
+			});
+
+			// Listen for onSaveCategory event
+			craft()->on('categories.saveCategory', function(Event $event) {
+				if (!$event->params['isNewCategory']) {
+					craft()->npEditMultipleElements->handleSaveEvent();
+				}
+			});
+		}
 	}
 
 	public function getName()
