@@ -31,7 +31,8 @@ class NpEditMultipleElementsService extends BaseApplicationComponent
 
 	public function handleNonEditRequests()
 	{
-		if (!craft()->request->isAjaxRequest && !empty(craft()->session->get('npEditMultiple_remaining'))) {
+		$remainingEdits = craft()->session->get('npEditMultiple_remaining');
+		if (!craft()->request->isAjaxRequest && !empty($remainingEdits)) {
 			// Destroy session if this is a non-edit request, or if the currently requested element is not in the list
 			$segments = craft()->request->segments;
 			if (isset($segments[2])) {
