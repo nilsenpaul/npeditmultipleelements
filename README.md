@@ -1,3 +1,6 @@
+### Craft 3
+[Sequential Edit](https://github.com/nilsenpaul/craft-sequentialedit) for Craft CMS 3 is now available in the plugin store!
+
 # NP Edit Multiple Elements plugin for Craft CMS
 
 This plugin lets you edit multiple elements (entries or categories) sequentially.
