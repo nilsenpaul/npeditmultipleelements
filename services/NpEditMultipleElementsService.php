@@ -54,8 +54,8 @@ class NpEditMultipleElementsService extends BaseApplicationComponent
 
 	protected function destroySessions()
 	{
-			craft()->session->destroy('npEditMultiple_first');
-			craft()->session->destroy('npEditMultiple_remaining');
-			craft()->session->destroy('npEditMultiple_locale');
+			craft()->session->remove('npEditMultiple_first');
+			craft()->session->remove('npEditMultiple_remaining');
+			craft()->session->remove('npEditMultiple_locale');
 	}
 }
